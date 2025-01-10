@@ -3,7 +3,7 @@ import { QRCode } from "react-qrcode-logo";
 import { toPng } from "html-to-image";
 
 export default function QRGenerator() {
-  const [url, setUrl] = useState("https://example.com");
+  const [url, setUrl] = useState("https://rebaorg.vercel.app/");
   const [size, setSize] = useState(256);
   const [isTransparent, setIsTransparent] = useState(false);
   const [bgColor, setBgColor] = useState("#FFFFFF");
@@ -58,7 +58,9 @@ export default function QRGenerator() {
     <div className="grid grid-cols-2 gap-4">
       <div className="space-y-6">
         <div>
-          <label>URL:</label>
+          <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            URL:
+          </label>
           <input
             type="text"
             value={url}
@@ -69,7 +71,9 @@ export default function QRGenerator() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label>Tamaño:</label>
+            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Tamaño:
+            </label>
             <input
               type="range"
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
@@ -78,10 +82,14 @@ export default function QRGenerator() {
               value={size}
               onChange={(e) => setSize(Number(e.target.value))}
             />
-            <span>{size}px</span>
+            <span className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              {size}px
+            </span>
           </div>
           <div>
-            <label>Esquinas redondeadas:</label>
+            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Esquinas redondeadas:
+            </label>
             <input
               type="range"
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
@@ -90,7 +98,9 @@ export default function QRGenerator() {
               value={eyeRadius}
               onChange={(e) => setEyeRadius(Number(e.target.value))}
             />
-            <span>{eyeRadius}px</span>
+            <span className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              {eyeRadius}px
+            </span>
           </div>
         </div>
 
@@ -108,7 +118,7 @@ export default function QRGenerator() {
             />
             <label
               for="default-checkbox"
-              class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Fondo Transparente
             </label>
@@ -116,7 +126,9 @@ export default function QRGenerator() {
 
           {!isTransparent && (
             <div>
-              <label>Background Color:</label>
+              <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">
+                Color de Fondo:
+              </label>
               <input
                 type="color"
                 value={bgColor}
@@ -125,7 +137,9 @@ export default function QRGenerator() {
             </div>
           )}
           <div>
-            <label>QR Code Color:</label>
+            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Color del QR:
+            </label>
             <input
               type="color"
               value={fgColor}
@@ -134,7 +148,9 @@ export default function QRGenerator() {
           </div>
 
           <div>
-            <label>Eye Color:</label>
+            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Color de esquinas:
+            </label>
             <input
               type="color"
               value={eyeColor}
@@ -143,7 +159,9 @@ export default function QRGenerator() {
           </div>
         </div>
         <div>
-          <label>Logo:</label>
+          <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Logo:
+          </label>
           <input
             type="file"
             accept="image/*"
@@ -155,7 +173,9 @@ export default function QRGenerator() {
           <>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label>Logo Ancho:</label>
+                <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Logo Ancho:
+                </label>
                 <input
                   type="range"
                   min="20"
@@ -167,7 +187,9 @@ export default function QRGenerator() {
                 <span>{logoWidth}px</span>
               </div>
               <div>
-                <label>Logo Alto:</label>
+                <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Logo Alto:
+                </label>
                 <input
                   type="range"
                   min="20"
@@ -181,7 +203,9 @@ export default function QRGenerator() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label>Logo Opacity:</label>
+                <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Opacidad del logo:
+                </label>
                 <input
                   type="range"
                   min="0"
@@ -194,7 +218,9 @@ export default function QRGenerator() {
                 <span>{logoOpacity * 100}%</span>
               </div>
               <div>
-                <label>Logo Border Radius:</label>
+                <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Redondear logo:
+                </label>
                 <input
                   type="range"
                   min="0"
@@ -212,13 +238,13 @@ export default function QRGenerator() {
           className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           onClick={downloadQR}
         >
-          Download QR Code
+          Descargar Codigo QR
         </button>
       </div>
 
       <div
-        className="qr-preview"
         ref={qrRef}
+        className="flex items-center justify-center h-[600px]"
         style={{ background: isTransparent ? "transparent" : "white" }}
       >
         <QRCode
