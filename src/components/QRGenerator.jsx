@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { QRCode } from "react-qrcode-logo";
-import { toPng } from "html-to-image";
+import { toPng, toSvg } from "html-to-image";
 
 export default function QRGenerator() {
   const [url, setUrl] = useState("https://rebaorg.vercel.app/");
@@ -29,13 +29,24 @@ export default function QRGenerator() {
     }
   };
 
-  const downloadQR = async () => {
+  const downloadQRPNG = async () => {
     if (qrRef.current) {
       const dataUrl = await toPng(qrRef.current, {
-        backgroundColor: isTransparent ? "transparent" : "white",
+        backgroundColor: "transparent",
       });
       const link = document.createElement("a");
       link.download = "qr-code.png";
+      link.href = dataUrl;
+      link.click();
+    }
+  };
+  const downloadQRSVG = async () => {
+    if (qrRef.current) {
+      const dataUrl = await toSvg(qrRef.current, {
+        backgroundColor: "transparent",
+      });
+      const link = document.createElement("a");
+      link.download = "qr-code.svg";
       link.href = dataUrl;
       link.click();
     }
@@ -234,12 +245,20 @@ export default function QRGenerator() {
             </div>
           </>
         )}
-        <button
-          className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          onClick={downloadQR}
-        >
-          Descargar Codigo QR
-        </button>
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            onClick={downloadQRPNG}
+          >
+            Descargar PNG
+          </button>
+          <button
+            className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            onClick={downloadQRSVG}
+          >
+            Descargar SVG
+          </button>
+        </div>
       </div>
 
       <div
