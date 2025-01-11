@@ -15,9 +15,10 @@ export default function QRGenerator() {
   const [logoRadius, setLogoRadius] = useState(0);
   const [eyeRadius, setEyeRadius] = useState(10);
   const [eyeColor, setEyeColor] = useState("#023060");
-
+  const [styleQr, setStyleQr] = useState("dots");
+  const [logoBack, setLogoBack] = useState(false);
+  const [levelQr, setLevelQr] = useState("L");
   const qrRef = useRef();
-
   const handleLogoChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -66,7 +67,7 @@ export default function QRGenerator() {
   const eyeColorConfig = [eyeColor, eyeColor, eyeColor];
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid md:grid-cols-2 lg:grid-cols-2 sm:grid-cols-1 gap-4">
       <div className="space-y-6">
         <div>
           <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -81,6 +82,37 @@ export default function QRGenerator() {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Nivel:
+            </label>
+            <select
+              onChange={(e) => setLevelQr(e.target.value)}
+              value={levelQr}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option selected>Elije un tipo</option>
+              <option value="L">L</option>
+              <option value="M">M</option>
+              <option value="Q">Q</option>
+              <option value="H">H</option>
+            </select>
+          </div>
+          <div>
+            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Estilo:
+            </label>
+            <select
+              onChange={(e) => setStyleQr(e.target.value)}
+              value={styleQr}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option selected>Elije un tipo</option>
+              <option value="dots">Puntos</option>
+              <option value="fluid">Líneas</option>
+              <option value="squares">Cuadriculas</option>
+            </select>
+          </div>
           <div>
             <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
               Tamaño:
@@ -229,18 +261,18 @@ export default function QRGenerator() {
                 <span>{logoOpacity * 100}%</span>
               </div>
               <div>
-                <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  Redondear logo:
-                </label>
                 <input
-                  type="range"
-                  min="0"
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                  max="50"
-                  value={logoRadius}
-                  onChange={(e) => setLogoRadius(Number(e.target.value))}
+                  type="checkbox"
+                  checked={logoBack}
+                  onChange={(e) => setLogoBack(e.target.checked)}
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                <span>{logoRadius}px</span>
+                <label
+                  for="default-checkbox"
+                  className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Colocar fondo al logo
+                </label>
               </div>
             </div>
           </>
@@ -268,11 +300,11 @@ export default function QRGenerator() {
       >
         <QRCode
           value={url}
-          ecLevel="H"
+          ecLevel={levelQr}
           size={size}
           bgColor={isTransparent ? "transparent" : bgColor}
           fgColor={fgColor}
-          qrStyle="dots"
+          qrStyle={styleQr}
           eyeRadius={eyeRadiusConfig}
           eyeColor={eyeColorConfig}
           quietZone={10}
@@ -281,7 +313,7 @@ export default function QRGenerator() {
           logoHeight={logoHeight}
           logoOpacity={logoOpacity}
           logoBorderRadius={logoRadius}
-          removeQrCodeBehindLogo={false}
+          removeQrCodeBehindLogo={logoBack}
         />
       </div>
     </div>
